@@ -1,0 +1,6 @@
+{
+  "name": "TripMate - Intelligent Travel Planning",
+  "description": "Your intelligent companion for personalised travel planning with curated destinations, conversational AI itineraries, and bespoke accommodations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
