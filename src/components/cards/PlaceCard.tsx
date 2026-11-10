@@ -15,8 +15,21 @@ import {
   Accessibility,
   Globe,
   Landmark,
+  Sparkles,
 } from 'lucide-react';
 import { Place } from '../../types';
+
+/**
+ * NiVU AI deep-link for heritage / historical place exploration.
+ *
+ * Leave this constant as an empty string until the verified NiVU AI URL is
+ * available.  When empty, the "Explore on NiVU AI" link is completely hidden —
+ * no broken or dummy link is ever rendered.
+ *
+ * To enable: set this to the confirmed public URL, e.g.:
+ *   const NIVU_AI_URL = 'https://nivu.ai';
+ */
+const NIVU_AI_URL = 'https://nivu.ai/';
 
 interface PlaceCardProps {
   place: Place;
@@ -37,6 +50,18 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
 }) => {
   const [imageError, setImageError] = useState(false);
   const showVerifiedPhoto = Boolean(place.hasVerifiedPhoto && place.imageUrl && !imageError);
+
+  /**
+   * True for places that are historical or heritage in nature.
+   * Matches category 'historic' or 'temple', or an officialSourceType of
+   * 'heritage' or 'temple'.  Used to conditionally show the NiVU AI link.
+   */
+  const isHeritagePlace =
+    place.category === 'historic' ||
+    place.category === 'temple' ||
+    place.officialSourceType === 'heritage' ||
+    place.officialSourceType === 'temple';
+
   const directionsUrl = place.coordinates
     ? `https://www.google.com/maps/dir/?api=1&destination=${place.coordinates.lat},${place.coordinates.lng}&travelmode=driving`
     : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name + ', ' + place.location + ', ' + place.city)}&travelmode=driving`;
@@ -155,45 +180,68 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
           </div>
         )}
 
-        {/* Official Information Link or Honest Unavailable Label */}
-        {place.officialUrl && place.officialSourceType !== 'unavailable' && place.officialAudit?.verified !== false && (
-          <div className="py-2 px-2.5 rounded-lg bg-stone-50/80 border border-stone-200/60 flex items-center justify-between text-xs mb-3">
-            <a
-              href={place.officialUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-medium text-amber-900 hover:text-amber-700 transition-colors truncate max-w-[65%]"
-              title={`${place.officialAudit?.linkLabel || place.officialSourceLabel || 'Official Information'}: ${place.officialAuthority || place.officialSourceLabel || ''}`}
-            >
-              <Globe className="w-3.5 h-3.5 text-amber-700 shrink-0" />
-              <span className="truncate">
-                {place.officialAudit?.linkLabel ||
-                  (place.officialSourceType === 'temple'
-                    ? 'Official Temple Information'
-                    : place.officialSourceType === 'heritage'
-                    ? 'Official Heritage Information'
-                    : place.officialSourceType === 'government'
-                    ? 'Official Government Information'
-                    : place.officialSourceType === 'tourism'
-                    ? 'Official Tourism Information'
-                    : place.officialSourceType === 'booking'
-                    ? 'Booking Website'
-                    : place.category === 'temple'
-                    ? 'Official Temple Information'
-                    : place.category === 'historic'
-                    ? 'Official Heritage Information'
-                    : 'Official Website')}
-              </span>
-              <ExternalLink className="w-3 h-3 text-stone-400 shrink-0" />
-            </a>
-            {place.officialAuthority || place.officialSourceLabel ? (
-              <span
-                className="text-[10px] text-stone-400 truncate max-w-[130px] hidden sm:inline text-right"
-                title={place.officialAuthority || place.officialSourceLabel}
+        {/* Official Information / Useful Links — official website + NiVU AI (heritage only) */}
+        {(
+          (place.officialUrl && place.officialSourceType !== 'unavailable' && place.officialAudit?.verified !== false) ||
+          (isHeritagePlace && NIVU_AI_URL)
+        ) && (
+          <div className="py-2 px-2.5 rounded-lg bg-stone-50/80 border border-stone-200/60 flex flex-col gap-1.5 text-xs mb-3">
+            {/* Official website link */}
+            {place.officialUrl && place.officialSourceType !== 'unavailable' && place.officialAudit?.verified !== false && (
+              <div className="flex items-center justify-between">
+                <a
+                  href={place.officialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-medium text-amber-900 hover:text-amber-700 transition-colors truncate max-w-[65%]"
+                  title={`${place.officialAudit?.linkLabel || place.officialSourceLabel || 'Official Information'}: ${place.officialAuthority || place.officialSourceLabel || ''}`}
+                >
+                  <Globe className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                  <span className="truncate">
+                    {place.officialAudit?.linkLabel ||
+                      (place.officialSourceType === 'temple'
+                        ? 'Official Temple Information'
+                        : place.officialSourceType === 'heritage'
+                        ? 'Official Heritage Information'
+                        : place.officialSourceType === 'government'
+                        ? 'Official Government Information'
+                        : place.officialSourceType === 'tourism'
+                        ? 'Official Tourism Information'
+                        : place.officialSourceType === 'booking'
+                        ? 'Booking Website'
+                        : place.category === 'temple'
+                        ? 'Official Temple Information'
+                        : place.category === 'historic'
+                        ? 'Official Heritage Information'
+                        : 'Official Website')}
+                  </span>
+                  <ExternalLink className="w-3 h-3 text-stone-400 shrink-0" />
+                </a>
+                {place.officialAuthority || place.officialSourceLabel ? (
+                  <span
+                    className="text-[10px] text-stone-400 truncate max-w-[130px] hidden sm:inline text-right"
+                    title={place.officialAuthority || place.officialSourceLabel}
+                  >
+                    {(place.officialAuthority || place.officialSourceLabel || '').split('(')[0].trim()}
+                  </span>
+                ) : null}
+              </div>
+            )}
+
+            {/* NiVU AI link — heritage/historical places only */}
+            {isHeritagePlace && NIVU_AI_URL && (
+              <a
+                href={NIVU_AI_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-medium text-stone-600 hover:text-stone-900 transition-colors"
+                title={`Explore ${place.name} on NiVU AI`}
               >
-                {(place.officialAuthority || place.officialSourceLabel || '').split('(')[0].trim()}
-              </span>
-            ) : null}
+                <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                <span>Explore on NiVU AI</span>
+                <ExternalLink className="w-3 h-3 text-stone-400 shrink-0" />
+              </a>
+            )}
           </div>
         )}
 
