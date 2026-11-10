@@ -52,13 +52,20 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
   const showVerifiedPhoto = Boolean(place.hasVerifiedPhoto && place.imageUrl && !imageError);
 
   /**
-   * True for places that are historical or heritage in nature.
-   * Matches category 'historic' or 'temple', or an officialSourceType of
-   * 'heritage' or 'temple'.  Used to conditionally show the NiVU AI link.
+   * True for places that are historical, heritage, cultural, temple, or museum in nature.
+   * Supports categories: historic, historical, heritage, temple, cultural, and museum
+   * (normalized using lowercase and trimming).
+   * Also preserves the existing officialSourceType checks ('heritage' or 'temple').
+   * Used to conditionally show the NiVU AI link.
    */
+  const normalizedCategory = place.category ? place.category.trim().toLowerCase() : '';
   const isHeritagePlace =
-    place.category === 'historic' ||
-    place.category === 'temple' ||
+    normalizedCategory === 'historic' ||
+    normalizedCategory === 'historical' ||
+    normalizedCategory === 'heritage' ||
+    normalizedCategory === 'temple' ||
+    normalizedCategory === 'cultural' ||
+    normalizedCategory === 'museum' ||
     place.officialSourceType === 'heritage' ||
     place.officialSourceType === 'temple';
 
