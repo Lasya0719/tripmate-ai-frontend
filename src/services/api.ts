@@ -663,17 +663,25 @@ export async function sendChatMessage(
 
   const catalogPlaces = Object.values(VERIFIED_PLACES).flat();
 
-  // Only inject catalog places when the user is explicitly requesting place info.
-  // Do NOT inject for simple greetings ("Hi", "Hello") or one-word messages.
+  // Show place cards only when the user clearly asks to discover or find places.
+  // Questions asking for explanations/history remain conversational and card-free.
+  const isTheoryQuestion =
+    /\b(tell me about|explain|describe|history of|why is|who was|meaning of)\b/i.test(fullPayload.message);
+
   const isExplicitPlaceRequest =
-    !isSimpleGreeting && (
-      /\b(show|suggest|recommend|tell me about|details|visit|photograph|where|how to reach|how far|accessibility|best time|opening|entry fee|places|tourist|sightseeing|attractions|caves|fort|temple|museum|barrage|island|park)\b/i.test(fullPayload.message)
-      || (mappedRecs.places != null && mappedRecs.places.length > 0)
-    );
+    !isSimpleGreeting &&
+    !isTheoryQuestion &&
+    /\b(show|suggest|recommend|find|list|discover|explore)\b|\b(places?|attractions?|temples?|caves?|forts?|museums?|parks?|islands?)\s+(to\s+visit|near|around|in)\b|\b(top|best)\s+(places?|attractions?|temples?|forts?|museums?)\b|\b(more|other)\s+(places?|recommendations?)\b/i.test(fullPayload.message);
 
   const mentionedPlaces = isExplicitPlaceRequest
     ? findMentionedCatalogPlaces(fullPayload.message, catalogPlaces)
     : [];
+
+  // Do not display backend place records for ordinary theory questions.
+  // Hide place cards for theory questions and simple greetings only.
+  if (isTheoryQuestion || isSimpleGreeting) {
+   mappedRecs.places = [];
+  }
 
   if (mentionedPlaces.length > 0) {
     if (!mappedRecs.places) mappedRecs.places = [];

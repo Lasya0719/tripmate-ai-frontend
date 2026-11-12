@@ -23,7 +23,6 @@ import {
   HelpCircle,
   MapPin,
   Calendar,
-  ShieldCheck,
   Coffee
 } from 'lucide-react';
 import { sendChatMessage } from '../../services/api';
@@ -371,7 +370,6 @@ export const TripMateOpenChat: React.FC<TripMateOpenChatProps> = ({
         role: 'assistant',
         content: res.content,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        source: res.isBackendSource ? 'Verified Records' : 'Gemini AI',
         language: res.language || selectedLanguage,
         suggestedActions: res.suggestedActions || [],
         recommendations: res.recommendations,
@@ -390,7 +388,6 @@ export const TripMateOpenChat: React.FC<TripMateOpenChatProps> = ({
             ? 'क्षमा करें, अनुरोध पूरा करने में समस्या आई। कृपया पुनः प्रयास करें।'
             : 'I could not complete your travel request right now. Please check the backend connection and try again.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        source: 'Error',
       };
       setMessages((prev) => [...prev, errorMsg]);
     } finally {
@@ -595,12 +592,6 @@ export const TripMateOpenChat: React.FC<TripMateOpenChatProps> = ({
                       {!isUser && (
                         <div className="mt-3 pt-2.5 border-t border-stone-100 flex items-center justify-between text-xs text-stone-600">
                           <div className="flex items-center gap-2">
-                            {msg.source && (
-                              <span className="inline-flex items-center gap-1 font-medium text-stone-600">
-                                <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
-                                {msg.source}
-                              </span>
-                            )}
                           </div>
 
                           <div className="flex items-center gap-1.5">

@@ -59,15 +59,29 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
    * Used to conditionally show the NiVU AI link.
    */
   const normalizedCategory = place.category ? place.category.trim().toLowerCase() : '';
-  const isHeritagePlace =
+
+  // Categories that are NOT eligible for NiVU (accommodation and food)
+  const isAccommodationOrDining =
+    place.officialSourceType === 'booking' ||
+    normalizedCategory === 'hotel' ||
+    normalizedCategory === 'hostel' ||
+    normalizedCategory === 'restaurant';
+
+  // Eligible categories for NiVU AI (all tourist attractions)
+  const isEligibleForNivuCategory =
     normalizedCategory === 'historic' ||
     normalizedCategory === 'historical' ||
     normalizedCategory === 'heritage' ||
     normalizedCategory === 'temple' ||
     normalizedCategory === 'cultural' ||
     normalizedCategory === 'museum' ||
-    place.officialSourceType === 'heritage' ||
-    place.officialSourceType === 'temple';
+    normalizedCategory === 'nature' ||
+    normalizedCategory === 'viewpoint' ||
+    normalizedCategory === 'beach' ||
+    normalizedCategory === 'adventure';
+
+  // NiVU shows if the category is eligible AND the source type is not 'booking'
+  const isEligibleForNivu = isEligibleForNivuCategory && !isAccommodationOrDining;
 
   const directionsUrl = place.coordinates
     ? `https://www.google.com/maps/dir/?api=1&destination=${place.coordinates.lat},${place.coordinates.lng}&travelmode=driving`
@@ -190,7 +204,7 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
         {/* Official Information / Useful Links — official website + NiVU AI (heritage only) */}
         {(
           (place.officialUrl && place.officialSourceType !== 'unavailable' && place.officialAudit?.verified !== false) ||
-          (isHeritagePlace && NIVU_AI_URL)
+          (isEligibleForNivu && NIVU_AI_URL)
         ) && (
           <div className="py-2 px-2.5 rounded-lg bg-stone-50/80 border border-stone-200/60 flex flex-col gap-1.5 text-xs mb-3">
             {/* Official website link */}
@@ -236,7 +250,7 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
             )}
 
             {/* NiVU AI link — heritage/historical places only */}
-            {isHeritagePlace && NIVU_AI_URL && (
+            {isEligibleForNivu && NIVU_AI_URL && (
               <a
                 href={NIVU_AI_URL}
                 target="_blank"

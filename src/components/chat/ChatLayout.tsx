@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, Sparkles, Server, Bookmark, Scale, Plus, ArrowLeft } from 'lucide-react';
+import { Menu, Sparkles, Bookmark, Scale, Plus, ArrowLeft } from 'lucide-react';
 import { ChatMessage, Conversation, ConversationContext, Hotel, Itinerary, Place, Restaurant, UserProfile, AnsweringMethod } from '../../types';
 import { sendChatMessage, checkBackendConnection } from '../../services/api';
 import { ChatSidebar } from './ChatSidebar';
@@ -607,26 +607,6 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                 <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-amber-600" />
               )}
             </button>
-
-            {/* Backend connection indicator */}
-            <span
-              className={`inline-flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg text-xs font-medium border ${
-                backendStatus.isConnected
-                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                  : 'bg-stone-100 text-stone-600 border-stone-200'
-              }`}
-              role="status"
-              aria-live="polite"
-            >
-              <Server className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">
-                {backendStatus.message === 'Checking...'
-                  ? chatStrings.connectionChecking
-                  : backendStatus.isConnected
-                    ? chatStrings.backendLive
-                    : chatStrings.connectionRequired}
-              </span>
-            </span>
           </div>
         </header>
 

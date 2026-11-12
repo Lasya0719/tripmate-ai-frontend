@@ -19,6 +19,7 @@ import {
 export interface StructuredResponseRendererProps {
   content: string;
   language?: string;
+  isItinerary?: boolean;
 }
 
 // Authentic Andhra Pradesh cuisine database with verified Wikimedia Commons images and CC attribution
