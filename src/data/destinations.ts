@@ -114,10 +114,13 @@ export const DESTINATION_INSPIRATIONS: DestinationInspiration[] = [
     tagline: 'Sacred hills, historic rock-cuts & riverfront sunsets',
     state: 'Andhra Pradesh',
     description: 'A vibrant cultural crossroads on the banks of Krishna River, famous for the revered Kanaka Durga Temple, ancient Undavalli rock-cut cave temples, and peaceful island retreats.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Kanaka_Durga_Temple_Vijayawada.jpg/1200px-Kanaka_Durga_Temple_Vijayawada.jpg',
+    imageUrl: '/images/destinations/vijayawada.jpg',
     bestSeason: 'October to March',
     travelStyle: 'Heritage & Riverside Serenity',
-    suggestedPrompt: 'Explore historic attractions and culture in Vijayawada'
+    suggestedPrompt: 'Explore historic attractions and culture in Vijayawada',
+    officialUrl: 'https://ntr.ap.gov.in/tourist-places/',
+    officialSourceType: 'government',
+    officialSourceLabel: 'NTR District Government – Tourist Places'
   },
   {
     id: 'araku-valley',
@@ -125,7 +128,7 @@ export const DESTINATION_INSPIRATIONS: DestinationInspiration[] = [
     tagline: 'Mist-clad hill stations, organic coffee & emerald waterfalls',
     state: 'Andhra Pradesh',
     description: 'Nestled in the Eastern Ghats, Araku is celebrated for its sprawling aromatic coffee plantations, breathtaking Borra Caves, and misty tribal highland heritage.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Borra_caves_inside.jpg/1200px-Borra_caves_inside.jpg',
+    imageUrl: '/images/destinations/araku-valley.jpg',
     bestSeason: 'September to February',
     travelStyle: 'Nature & Misty Escapes',
     suggestedPrompt: 'Explore coffee hills and nature in Araku Valley'
@@ -136,7 +139,7 @@ export const DESTINATION_INSPIRATIONS: DestinationInspiration[] = [
     tagline: 'Ocean cliffs, submarine history & pristine coastline',
     state: 'Andhra Pradesh',
     description: 'The City of Destiny where lush green hills cascade directly into the Bay of Bengal, featuring Kailasagiri hilltop vistas and the legendary INS Kursura submarine museum.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/INS_Kursura_%28S20%29_at_RK_Beach.jpg/1200px-INS_Kursura_%28S20%29_at_RK_Beach.jpg',
+    imageUrl: '/images/destinations/visakhapatnam.jpg',
     bestSeason: 'November to March',
     travelStyle: 'Coastal & Hilltop Panoramas',
     suggestedPrompt: 'Explore coastal viewpoints and history in Visakhapatnam'
@@ -147,10 +150,13 @@ export const DESTINATION_INSPIRATIONS: DestinationInspiration[] = [
     tagline: 'The Grand Canyon of India carved by the Pennar River',
     state: 'Andhra Pradesh',
     description: 'A dramatic gorge of crimson sandstone cliffs hugging the Pennar river, crowned by a 13th-century red-stone fort, granaries, and majestic ancient temple ruins.',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/The_Grand_Canyon_of_India_Gandikota.jpg/1200px-The_Grand_Canyon_of_India_Gandikota.jpg',
+    imageUrl: '/images/destinations/gandikota.jpg',
     bestSeason: 'October to February',
     travelStyle: 'Geological Wonder & History',
-    suggestedPrompt: 'Explore the red sandstone canyon in Gandikota'
+    suggestedPrompt: 'Explore the red sandstone canyon in Gandikota',
+    officialUrl: 'https://kadapa.ap.gov.in/tourist-place/gandikota',
+    officialSourceType: 'government',
+    officialSourceLabel: 'YSR Kadapa District Administration'
   },
   {
     id: 'kerala',
@@ -161,7 +167,10 @@ export const DESTINATION_INSPIRATIONS: DestinationInspiration[] = [
     imageUrl: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=80',
     bestSeason: 'September to March',
     travelStyle: 'Backwaters & Wellness',
-    suggestedPrompt: 'Explore backwaters and serenity in Kerala'
+    suggestedPrompt: 'Explore backwaters and serenity in Kerala',
+    officialUrl: 'https://www.keralatourism.org',
+    officialSourceType: 'tourism',
+    officialSourceLabel: 'Department of Tourism, Government of Kerala'
   },
   {
     id: 'goa',
@@ -172,7 +181,10 @@ export const DESTINATION_INSPIRATIONS: DestinationInspiration[] = [
     imageUrl: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80',
     bestSeason: 'November to February',
     travelStyle: 'Coastal Heritage & Leisure',
-    suggestedPrompt: 'Explore coastal heritage and architecture in Goa'
+    suggestedPrompt: 'Explore coastal heritage and architecture in Goa',
+    officialUrl: 'https://goa-tourism.com',
+    officialSourceType: 'tourism',
+    officialSourceLabel: 'Goa Tourism'
   }
 ];
 
